@@ -17,8 +17,6 @@ final class AccountService implements AccountServiceInterface
 
     public function save($request, $user)
     {
-        $request->validate(['title' => 'required|max:255']);
-        $this->send($request, $user);
         return $this->accountWrite->writeNewAccount($request, $user);
     }
 

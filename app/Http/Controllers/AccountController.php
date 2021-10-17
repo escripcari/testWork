@@ -2,13 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Repositories\Eloquent\RepositoryAccountQueries;
+use App\Http\Requests\AccountValidateRequest;
 use App\Repositories\RepositoriesInterface\AccountQueries;
 use App\Repositories\RepositoriesInterface\AccountWrite;
 use App\Services\Contracts\AccountServiceInterface;
 use Illuminate\Http\Request;
-use App\Models\User;
-use App\Models\AccountBook;
 use Illuminate\Support\Facades\Auth;
 
 class AccountController extends Controller
@@ -36,10 +34,13 @@ class AccountController extends Controller
         return view('form');
     }
 
-    public function store(Request $request, AccountServiceInterface $accountService)
-    {
+    public function store(
+        AccountValidateRequest $accountRequest,
+        AccountServiceInterface $accountService
+    ){
         $user = Auth::user();
-        $accountService->save($request, $user);
+        $accountService->save($accountRequest, $user);
+        $accountService->send($accountRequest, $user);
         return redirect()->route('accounts.index');
     }
 

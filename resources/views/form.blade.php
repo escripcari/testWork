@@ -20,8 +20,6 @@
         Расход:<input type="number" name="expenses">
     </p>
     <button type="submit">submit</button>
-
 </form>
-
 </body>
 </html>

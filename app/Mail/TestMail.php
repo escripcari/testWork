@@ -29,6 +29,6 @@ class TestMail extends Mailable
      */
     public function build()
     {
-        return $this->subject('test wopk')->view('view.name');
+        return $this->subject('test wopk')->view('welcome');
     }
 }

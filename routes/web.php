@@ -22,7 +22,6 @@ Route::post('/',                          [AccountController::class, 'getOrderBy
 
 Route::get('/accounts/create',            [AccountController::class, 'create'])->name('accounts.create');
 Route::post('/accounts',                  [AccountController::class, 'store'])->name('accounts.store');
-
 Route::get('/accounts/{account_id}',      [AccountController::class, 'show'])->name('accounts.show');
 Route::get('/accounts/{account_id}/edit', [AccountController::class, 'edit'])->name('account.edit');
 Route::put('/accounts/{account_id}/',      [AccountController::class, 'update'])->name('account.update');

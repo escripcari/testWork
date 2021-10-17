@@ -19,9 +19,10 @@ class RepositoryAccountWrite implements AccountWrite
             'title'    => $request->input('title'),
             'income'   => $request->input('income'),
             'expenses' => $request->input('expenses'),
-            'sum'      => $request->input('income')-$request->input('expenses'),
+            'sum'      => $request->input('income') - $request->input('expenses'),
             'user_id'  => $user->id,
         ]);
+        return true;
     }
 
     public function destroyAccount($accountId)
