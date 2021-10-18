@@ -8,7 +8,7 @@ use App\Repositories\RepositoriesInterface\AccountQueries;
 use App\Repositories\RepositoriesInterface\AccountWrite;
 use Illuminate\Support\ServiceProvider;
 
-class ReositoryServiceProvider extends ServiceProvider
+class RepositoryServiceProvider extends ServiceProvider
 {
     /**
      * Register services.

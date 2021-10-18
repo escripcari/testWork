@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\DTO\CreateAccountDTO;
+use App\Events\AddAccountEvent;
 use App\Http\Requests\AccountValidateRequest;
 use App\Repositories\RepositoriesInterface\AccountQueries;
 use App\Repositories\RepositoriesInterface\AccountWrite;
@@ -18,7 +20,7 @@ class AccountController extends Controller
     {
         $user = Auth::user();
         $account = $repository->getUserAccount($user->id, $column, $order);
-        return view('index', ['account' => $account, 'user' => $user]);
+        return response()->json([$account, $user]);
     }
 
     public function getOrderBy(Request $request, AccountServiceInterface $accountService)
@@ -29,18 +31,15 @@ class AccountController extends Controller
             'order' => $record['order']]);
     }
 
-    public function create()
-    {
-        return view('form');
-    }
-
     public function store(
         AccountValidateRequest $accountRequest,
         AccountServiceInterface $accountService
     ){
+
         $user = Auth::user();
-        $accountService->save($accountRequest, $user);
-        $accountService->send($accountRequest, $user);
+        $dto = CreateAccountDTO::transform($accountRequest);
+        $accountService->save($dto, $user);
+        AddAccountEvent::dispatch($accountRequest, $user);
         return redirect()->route('accounts.index');
     }
 
@@ -49,6 +48,12 @@ class AccountController extends Controller
         $account = $repository->getById($account_id);
 
         return response()->json([$account]);
+    }
+
+    public function update(AccountWrite $repository,  AccountValidateRequest $request)
+    {
+        $repository->updateAccount($request);
+        return redirect()->route('accounts.index');
     }
 
     public function destroy($accountId, AccountWrite $writeRepository)
